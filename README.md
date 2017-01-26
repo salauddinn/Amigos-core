@@ -1,0 +1,2 @@
+# Amigos-core
+Amigos - core 
