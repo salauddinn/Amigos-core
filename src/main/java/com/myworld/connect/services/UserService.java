@@ -16,17 +16,25 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void update(User user, String emailID) {
+    public void update(User user, String emailID) throws UserNotFoundException{
         User existingUser = userRepository.findByEmailID(emailID);
-        if (existingUser != null)
+        try {
             existingUser.setPassword(user.getPassword());
-        userRepository.save(existingUser);
+            userRepository.save(existingUser);
+        }
+        catch (NullPointerException ex) {
+            throw new UserNotFoundException("User doesn't exist");
+        }
     }
 
-    public void delete(String emailID) {
+    public void delete(String emailID) throws UserNotFoundException {
         User existingUser = userRepository.findByEmailID(emailID);
-        if (existingUser != null)
+        try {
             userRepository.delete(existingUser.getUserID());
+        }
+        catch (NullPointerException ex) {
+            throw new UserNotFoundException("User doesn't exist");
+        }
     }
 
     public User getByEmailID(String emailID) {
