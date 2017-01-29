@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.websocket.server.PathParam;
-
 @RestController
 public class UserController {
 
@@ -23,20 +21,19 @@ public class UserController {
         userService.save(user);
     }
 
-    @RequestMapping(value = "/user/{userID}", method = RequestMethod.GET)
-    public User getDetails(@PathVariable("userID") Integer userID) {
-        return userService.get(userID);
+    @RequestMapping(value = "/user/{emailID}", method = RequestMethod.GET)
+    public User getDetails(@PathVariable("emailID") String emailID) {
+        return userService.getByEmailID(emailID);
     }
 
-    @RequestMapping(value = "/user/{userID}", method = RequestMethod.PUT)
-    public void updateUser(@RequestBody User user, @PathParam("userID") Integer id) {
-        userService.update(user, id);
+    @RequestMapping(value = "/user/{emailID}", method = RequestMethod.PUT)
+    public void updateUser(@RequestBody User user, @PathVariable("emailID") String emailID) {
+        userService.update(user, emailID);
     }
 
-
-    @RequestMapping(value = "/user/{userID}", method = RequestMethod.DELETE)
-    public void deleteUser(@PathVariable("userID") Integer userID) {
-        userService.delete(userID);
+    @RequestMapping(value = "/user/{emailID}", method = RequestMethod.DELETE)
+    public void deleteUser(@PathVariable("emailID") String emailID) {
+        userService.delete(emailID);
     }
 
 

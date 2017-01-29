@@ -11,7 +11,6 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse-wtp'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'war'
 
@@ -32,6 +31,7 @@ configurations {
 }
 
 dependencies {
+	compile 'javax.el:javax.el-api:2.2.4'
 	compile("org.springframework.boot:spring-boot-starter-data-jpa")
 	runtime("mysql:mysql-connector-java")
 	compile("org.springframework.boot:spring-boot-starter-jdbc")
@@ -40,7 +40,17 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
-task run(dependsOn: ['clean','build','bootRun']){
+task start(dependsOn: ['clean','build','bootRun']){
  build.mustRunAfter clean
  bootRun.mustRunAfter build
+}
+
+task debug(dependsOn: ['clean','build','bootRun']) {
+	bootRun {
+		jvmArgs "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8086"
+	}
+	build.mustRunAfter clean
+	bootRun.mustRunAfter build
+
+
 }

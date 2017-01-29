@@ -1,7 +1,7 @@
 package com.myworld.connect.services;
 
 
-import com.myworld.connect.DaoImpl.UserRepository;
+import com.myworld.connect.repositories.UserRepository;
 import com.myworld.connect.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,15 +16,20 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User get(Integer id) {
-        return userRepository.findOne(id);
+    public void update(User user, String emailID) {
+        User existingUser = userRepository.findByEmailID(emailID);
+        if (existingUser != null)
+            existingUser.setPassword(user.getPassword());
+        userRepository.save(existingUser);
     }
 
-    public void update(User user, Integer userID) {
-        userRepository.save(user);
+    public void delete(String emailID) {
+        User existingUser = userRepository.findByEmailID(emailID);
+        if (existingUser != null)
+            userRepository.delete(existingUser.getUserID());
     }
 
-    public void delete(Integer userID) {
-        userRepository.delete(userID);
+    public User getByEmailID(String emailID) {
+        return userRepository.findByEmailID(emailID);
     }
 }
