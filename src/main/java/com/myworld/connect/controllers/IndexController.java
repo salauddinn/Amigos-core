@@ -17,6 +17,6 @@ public class IndexController implements ErrorController {
 
     @RequestMapping(value = ERROR_PATH)
     public String showError(){
-        return  "Requested Page Doesn't Exist";
+        return  "Requested Page Doesn't Exist\n";
     }
 }

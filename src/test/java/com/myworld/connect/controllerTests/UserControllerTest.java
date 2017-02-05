@@ -52,7 +52,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void shouldGetDetails() throws Exception {
+    public void shouldGetDetails() throws Exception{
         when(userService.getByEmailID("test@email.com")).thenReturn(new User(1, "test@email.com", "test"));
         mockMvc.perform(get("/user/test@email.com"))
                 .andExpect(status().isOk())
@@ -61,7 +61,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void shouldUpdateUserDetails() throws Exception, UserNotFoundException {
+    public void shouldUpdateUserDetails() throws Exception {
         User user = new User(1, "test@email.com", "test");
         mockMvc.perform(put("/user/test@email.com").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsBytes(user)))
                 .andExpect(status().isAccepted());
@@ -70,7 +70,7 @@ public class UserControllerTest {
 
 
     @Test
-    public void shouldDeleteUserDetails() throws Exception, UserNotFoundException {
+    public void shouldDeleteUserDetails() throws Exception {
         mockMvc.perform(delete("/user/test@email.com"))
                 .andExpect(status().isOk());
         verify(userService, times(1)).delete("test@email.com");
