@@ -54,7 +54,7 @@ public class UserControllerTest {
     @Test
     public void shouldGetDetails() throws Exception{
         when(userService.getByEmailID("test@email.com")).thenReturn(new User(1, "test@email.com", "test"));
-        mockMvc.perform(get("/user/test@email.com"))
+        mockMvc.perform(get("/user?emailID=test@email.com"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.userID", is(1)))
                 .andExpect(jsonPath("$.emailID", is("test@email.com")));
@@ -63,7 +63,7 @@ public class UserControllerTest {
     @Test
     public void shouldUpdateUserDetails() throws Exception {
         User user = new User(1, "test@email.com", "test");
-        mockMvc.perform(put("/user/test@email.com").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsBytes(user)))
+        mockMvc.perform(put("/user?emailID=test@email.com").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsBytes(user)))
                 .andExpect(status().isAccepted());
         verify(userService, times(1)).update(any(User.class), eq("test@email.com"));
     }
@@ -71,7 +71,7 @@ public class UserControllerTest {
 
     @Test
     public void shouldDeleteUserDetails() throws Exception {
-        mockMvc.perform(delete("/user/test@email.com"))
+        mockMvc.perform(delete("/user?emailID=test@email.com"))
                 .andExpect(status().isOk());
         verify(userService, times(1)).delete("test@email.com");
     }
